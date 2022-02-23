@@ -1,0 +1,94 @@
+<div *ngIf="viewMode; else editable">
+  <div *ngIf="currentTabela.id">
+    <h4>Tabelas</h4>
+    <div>
+      <label><strong>Title:</strong></label> {{ currentTabela.title }}
+    </div>
+    <div>
+      <label><strong>Description:</strong></label>
+      {{ currentTabela.description }}
+    </div>
+    <div>
+      <label><strong>Status:</strong></label>
+      {{ currentTabela.published ? "Publicado" : "Pendente" }}
+    </div>
+
+    <a
+      class="badge badge-warning"
+      routerLink="/tabelas/{{ currentTabela.id }}"
+    >
+      Edita
+    </a>
+  </div>
+
+  <div *ngIf="!currentTabela">
+    <br />
+    <p>Por favor clicar na Tabela...</p>
+  </div>
+</div>
+
+<ng-template #editable>
+  <div *ngIf="currentTabela.id" class="edit-form">
+    <h4>Tabela</h4>
+    <form>
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input
+          type="text"
+          class="form-control"
+          id="title"
+          [(ngModel)]="currentTabela.title"
+          name="title"
+        />
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input
+          type="text"
+          class="form-control"
+          id="description"
+          [(ngModel)]="currentTabela.description"
+          name="description"
+        />
+      </div>
+
+      <div class="form-group">
+        <label><strong>Status:</strong></label>
+        {{ currentTabela.published ? "Publicada" : "Pendente" }}
+      </div>
+    </form>
+
+    <button
+      class="badge badge-primary mr-2"
+      *ngIf="currentTabela.published"
+      (click)="updatePublished(false)"
+    >
+      UnPublish
+    </button>
+    <button
+      *ngIf="!currentTabela.published"
+      class="badge badge-primary mr-2"
+      (click)="updatePublished(true)"
+    >
+      Publica
+    </button>
+
+    <button class="badge badge-danger mr-2" (click)="deleteTabela()">
+      Deleta
+    </button>
+
+    <button
+      type="submit"
+      class="badge badge-success mb-2"
+      (click)="updateTabela()"
+    >
+      Altera
+    </button>
+    <p>{{ message }}</p>
+  </div>
+
+  <div *ngIf="!currentTabela.id">
+    <br />
+    <p>Tabela não Acessada...</p>
+  </div>
+</ng-template>
